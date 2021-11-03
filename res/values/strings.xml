@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Countmatic</string>
+    <string name="counter_body">Counter Body</string>
+    <string name="screen">screen</string>
+    <string name="step_info">Steps: How much count is increased each time.</string>
+    <string name="reset_info">Reset: To reset the counter and steps to default value.</string>
+    <string name="note"><i>Copyright </i><b>\u00A9</b></string>
+</resources>
