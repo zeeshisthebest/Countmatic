@@ -1,9 +1,12 @@
 package com.zecho.countmatic;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,14 +17,10 @@ import java.util.HashMap;
 
 public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
     private Context context;
-    private HashMap<String, Integer> map;
     private ArrayList<String> keyList;
 
 
-    SaveAdapter(Context context, HashMap<String, Integer> map) {
-        this.map = map;
-
-        this.keyList = new ArrayList<>(map.keySet());
+    SaveAdapter(Context context) {
 
         this.context = context;
     }
@@ -37,11 +36,21 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvSerial.setText(String.valueOf(position));
+        SharedPreferences sp = context.getSharedPreferences(MainActivity2.PREFERENCE_KEY, 0);
+        SharedPreferences.Editor editor = sp.edit();
+
+        holder.tvSerial.setText(String.valueOf(position + 1));
 
         holder.tvKey.setText(keyList.get(position));
 
-        holder.tvValue.setText(String.valueOf(map.get(keyList.get(position))));
+        holder.tvValue.setText(String.valueOf(sp.getInt(keyList.get(position), 0)));
+
+        holder.btnRemove.setOnClickListener(v -> {
+            editor.remove(keyList.get(position));
+            editor.apply();
+            keyList.remove(position);
+            notifyDataSetChanged();
+        });
 
     }
 
@@ -55,6 +64,7 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvSerial, tvKey, tvValue;
+        Button btnRemove;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +74,12 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
             tvKey = itemView.findViewById(R.id.tv_key);
 
             tvValue = itemView.findViewById(R.id.tv_value);
+
+            btnRemove = itemView.findViewById(R.id.btn_self_delete);
         }
+    }
+    
+    public void setItems(ArrayList<String> list){
+        this.keyList = list;
     }
 }

@@ -7,7 +7,7 @@
     android:background="#e36414"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity2">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_saved"
@@ -33,7 +33,7 @@
             android:background="#e36414"
             android:gravity="center"
             android:paddingVertical="5dp"
-            android:text="Tally Count Name"
+            android:text="@string/tally_tite"
             android:textAlignment="center"
             android:textColor="@color/browser_actions_bg_grey"
             android:textSize="17sp"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Steps: 0"
+            android:text="Steps: 1"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/btn_increase"
             app:layout_constraintLeft_toLeftOf="@id/btn_decrease"
