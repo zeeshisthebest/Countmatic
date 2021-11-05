@@ -50,7 +50,7 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
         holder.btnRemove.setOnClickListener(v -> {
             AlertDialog dialog = new AlertDialog.Builder(context)
                     .setTitle("Are you sure?")
-                    .setMessage("Do you really want to delete?")
+                    .setMessage("Do you really want to delete \"" + keyList.get(position) +"\"?")
                     .setPositiveButton("Delete", (dialog1, which) -> {
                         editor.remove(keyList.get(position));
                         editor.apply();
