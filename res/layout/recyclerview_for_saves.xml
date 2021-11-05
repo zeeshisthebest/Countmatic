@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="10dp"
     android:background="@drawable/background_for_save_rv"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp">
 
     <TextView
         android:id="@+id/tv_serial"
@@ -31,11 +32,11 @@
         android:textSize="@dimen/save_font_size" />
 
     <Button
+        android:id="@+id/btn_self_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_self_delete"
-        android:background="@android:drawable/ic_menu_close_clear_cancel"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="@android:drawable/ic_menu_close_clear_cancel" />
 
 
 </LinearLayout>

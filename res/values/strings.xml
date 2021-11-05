@@ -9,4 +9,9 @@
     <string name="tally_tite">untitled</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_message">You have not saved anything yet</string>
+    <string name="help_dialog_message"><b>◆ Steps:</b> How much count is increased each time.
+        \n\n<b>◆ Count: </b>Tap it to count
+        \n\n<b>◆ Save icon:</b> If you wish to save your current count press the save icon and name it.
+        \n\n<b>◆ List:</b> When you save anything it will be showed in the list, tap on it if you wish to continue that count. Tap on cross \"X\" to delete it.</string>
 </resources>

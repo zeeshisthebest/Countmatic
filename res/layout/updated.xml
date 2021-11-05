@@ -4,38 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e36414"
+    android:background="@color/parent_bg"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".MainActivity2">
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+
+    </com.google.android.gms.ads.AdView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_saved"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:background="#ED7F3A"
+        android:layout_weight="2"
+        android:background="@color/list_bg_color"
         android:padding="10dp"
         android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/tv_if_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/list_bg_color"
+        android:gravity="center"
+        android:text="@string/empty_message"
+        android:textAlignment="center"
+        android:textColor="#c6c6c6"
+        android:textSize="20sp" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="2"
-        android:background="#E8E7E7">
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF">
 
         <TextView
             android:id="@+id/tv_tally_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e36414"
+            android:background="@color/parent_bg"
             android:gravity="center"
             android:paddingVertical="5dp"
             android:text="@string/tally_tite"
             android:textAlignment="center"
-            android:textColor="@color/browser_actions_bg_grey"
+            android:textColor="@color/black"
             android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -111,6 +134,19 @@
             app:layout_constraintLeft_toRightOf="@id/btn_increase"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_steps" />
+
+        <Button
+            android:id="@+id/btn_help"
+            style="@style/Widget.AppCompat.Light.ActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HELP"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_count"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
+
     private final Context context;
     private ArrayList<String> keyList;
     private final MainActivity2 ma;
@@ -23,6 +24,7 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
 
     SaveAdapter(Context context, MainActivity2 ma) {
         this.ma = ma;
+
         this.context = context;
     }
 
@@ -30,7 +32,9 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_for_saves, parent, false);
+
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_for_saves, parent, false);
 
         return new ViewHolder(v);
     }
@@ -39,6 +43,7 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SharedPreferences sp = context.getSharedPreferences(MainActivity2.PREFERENCE_KEY, 0);
+
         SharedPreferences.Editor editor = sp.edit();
 
         holder.tvSerial.setText(String.valueOf(position + 1));
@@ -52,13 +57,19 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
                     .setTitle("Are you sure?")
                     .setMessage("Do you really want to delete \"" + keyList.get(position) +"\"?")
                     .setPositiveButton("Delete", (dialog1, which) -> {
+
                         editor.remove(keyList.get(position));
+
                         editor.apply();
+
                         keyList.remove(position);
+
                         notifyDataSetChanged();
+
                         ma.manageViews();
                     })
                     .setNegativeButton("No", (dialog1, which) -> dialog1.dismiss()).create();
+
             dialog.show();
 
         });
@@ -70,7 +81,9 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
+
         return keyList.size();
+
     }
 
 
@@ -96,6 +109,8 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
     }
 
     public void setItems(ArrayList<String> list) {
+
         this.keyList = list;
+
     }
 }
