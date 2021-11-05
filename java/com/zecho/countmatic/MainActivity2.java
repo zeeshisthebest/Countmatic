@@ -11,6 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,7 +38,17 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         setContentView(R.layout.updated);
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                        @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         initialize();
+
         ma = this;
 
         rvSaves = findViewById(R.id.rv_saved);

@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -52,21 +52,23 @@ public class SaveDialog extends AppCompatDialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflateee)
                 // Add action buttons
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText et = inflateee.findViewById(R.id.et_name);
-                        if (TextUtils.isEmpty(et.getText().toString())) {
-                            et.setError("Can't be empty");
-                        } else {
-                            listener.onDialogPositiveClick(et.getText().toString());
-                        }
-
-                    }
-                })
+                .setPositiveButton("Save",
+//                        new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        EditText et = inflateee.findViewById(R.id.et_name);
+//                        if (TextUtils.isEmpty(et.getText().toString())) {
+//                            et.setError("Can't be empty");
+//                        } else {
+//                            listener.onDialogPositiveClick(et.getText().toString());
+//                        }
+//
+//                    }
+//                }
+                        null)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        SaveDialog.this.getDialog().cancel();
+                        SaveDialog.this.dismiss();
                     }
                 });
 //        return builder.create();
@@ -82,13 +84,17 @@ public class SaveDialog extends AppCompatDialogFragment {
 
                     @Override
                     public void onClick(View view) {
-                        // TODO Do something
-
-                        //Dismiss once everything is OK.
-                        dialog.dismiss();
+                        et = inflateee.findViewById(R.id.et_name);
+                        if (TextUtils.isEmpty(et.getText().toString())) {
+                            et.setError("Can't be empty");
+                        } else {
+                            listener.onDialogPositiveClick(et.getText().toString());
+                            dialog.dismiss();
+                        }
                     }
                 });
             }
         });
+        return dialog;
     }
 }
