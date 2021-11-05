@@ -1,5 +1,6 @@
 package com.zecho.countmatic;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -47,11 +48,19 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
         holder.tvValue.setText(String.valueOf(sp.getInt(keyList.get(position), 0)));
 
         holder.btnRemove.setOnClickListener(v -> {
-            editor.remove(keyList.get(position));
-            editor.apply();
-            keyList.remove(position);
-            notifyDataSetChanged();
-            ma.manageViews();
+            AlertDialog dialog = new AlertDialog.Builder(context)
+                    .setTitle("Are you sure?")
+                    .setMessage("Do you really want to delete?")
+                    .setPositiveButton("Delete", (dialog1, which) -> {
+                        editor.remove(keyList.get(position));
+                        editor.apply();
+                        keyList.remove(position);
+                        notifyDataSetChanged();
+                        ma.manageViews();
+                    })
+                    .setNegativeButton("No", (dialog1, which) -> dialog1.dismiss()).create();
+            dialog.show();
+
         });
 
         holder.linearLayout.setOnClickListener(v -> ma.loadSavedCount(keyList.get(position), sp.getInt(keyList.get(position), 0)));
