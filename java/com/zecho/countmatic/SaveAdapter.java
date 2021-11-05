@@ -2,30 +2,31 @@ package com.zecho.countmatic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
-    private Context context;
+    private final Context context;
     private ArrayList<String> keyList;
+    private final MainActivity2 ma;
 
 
-    SaveAdapter(Context context) {
-
+    SaveAdapter(Context context, MainActivity2 ma) {
+        this.ma = ma;
         this.context = context;
     }
 
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_for_saves, parent, false);
@@ -50,7 +51,10 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
             editor.apply();
             keyList.remove(position);
             notifyDataSetChanged();
+            ma.manageViews();
         });
+
+        holder.linearLayout.setOnClickListener(v -> ma.loadSavedCount(keyList.get(position), sp.getInt(keyList.get(position), 0)));
 
     }
 
@@ -65,6 +69,7 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
 
         TextView tvSerial, tvKey, tvValue;
         Button btnRemove;
+        LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,10 +81,12 @@ public class SaveAdapter extends RecyclerView.Adapter<SaveAdapter.ViewHolder> {
             tvValue = itemView.findViewById(R.id.tv_value);
 
             btnRemove = itemView.findViewById(R.id.btn_self_delete);
+
+            linearLayout = itemView.findViewById(R.id.rv_parent_layout);
         }
     }
-    
-    public void setItems(ArrayList<String> list){
+
+    public void setItems(ArrayList<String> list) {
         this.keyList = list;
     }
 }

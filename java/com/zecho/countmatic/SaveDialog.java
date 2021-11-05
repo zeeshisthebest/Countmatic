@@ -59,10 +59,6 @@ public class SaveDialog extends AppCompatDialogFragment {
                         if (TextUtils.isEmpty(et.getText().toString())) {
                             et.setError("Can't be empty");
                         } else {
-//                            SharedPreferences sp = getActivity().getSharedPreferences(MainActivity2.PREFERENCE_KEY, 0);
-//                            SharedPreferences.Editor ed = sp.edit();
-//                            ed.putInt(et.getText().toString(), count);
-//                            ed.apply();
                             listener.onDialogPositiveClick(et.getText().toString());
                         }
 
@@ -73,6 +69,26 @@ public class SaveDialog extends AppCompatDialogFragment {
                         SaveDialog.this.getDialog().cancel();
                     }
                 });
-        return builder.create();
+//        return builder.create();
+        AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        // TODO Do something
+
+                        //Dismiss once everything is OK.
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 }

@@ -1,15 +1,15 @@
 package com.zecho.countmatic;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,40 +19,42 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     public static String PREFERENCE_KEY = "zecho.countmatic.SAVES";
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    TextView tvName, tvSteps, tvCount;
+    TextView tvName, tvSteps, tvCount, tvIfEmpty;
     Button btnSave, btnIncrease, btnDecrease, btnCount;
-    ArrayList<String> keySets;
     int count, step;
     RecyclerView rvSaves;
     SaveAdapter saveAdapter;
+    MainActivity2 ma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.updated);
 
         initialize();
+        ma = this;
 
         rvSaves = findViewById(R.id.rv_saved);
 
-        saveAdapter = new SaveAdapter(this);
-        saveAdapter.setItems(keySets);
+        saveAdapter = new SaveAdapter(this, ma);
+        saveAdapter.setItems(getKeys());
         rvSaves.setAdapter(saveAdapter);
 
         rvSaves.setLayoutManager(new LinearLayoutManager(MainActivity2.this, RecyclerView.VERTICAL, false));
+        manageViews();
     }
 
 
-    public void saveValue(HashMap<String, Integer> tally){
+    public void saveValue(HashMap<String, Integer> tally) {
 
     }
 
-    public void initialize(){
+    public void initialize() {
+
         sp = this.getSharedPreferences(PREFERENCE_KEY, 0);
 
         editor = sp.edit();
-
-        keySets = getKeys();
 
         count = 0;
 
@@ -63,6 +65,8 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         tvCount = findViewById(R.id.tv_tally);
 
         tvSteps = findViewById(R.id.tv_steps);
+
+        tvIfEmpty = findViewById(R.id.tv_if_empty);
 
         btnCount = findViewById(R.id.btn_count);
         btnCount.setOnClickListener(this);
@@ -80,7 +84,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_count:
                 count += step;
                 tvCount.setText(String.format("%05d.", count));
@@ -115,15 +119,54 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     @Override
     public void onDialogPositiveClick(String name) {
         editor.putInt(name, count);
-        Toast.makeText(this, "Called me", Toast.LENGTH_SHORT).show();
         editor.apply();
         saveAdapter.setItems(getKeys());
         saveAdapter.notifyDataSetChanged();
+        manageViews();
+        reset(0);
     }
 
-    public ArrayList<String> getKeys(){
+    public ArrayList<String> getKeys() {
         return new ArrayList<>(sp.getAll().keySet());
     }
-    
+
+    /**
+     * Resets the counter
+     *
+     * @param count to set the initial count
+     */
+    public void reset(int count) {
+        this.count = count;
+        this.step = 1;
+        tvCount.setText(String.format("%05d.", count));
+        tvSteps.setText("Steps: 1");
+    }
+
+
+    /**
+     * Called when the user taps stored counts
+     *
+     * @param name  name of the counter to be loaded
+     * @param count stored count of it
+     */
+    public void loadSavedCount(String name, int count) {
+
+        tvName.setText(name);
+        reset(count);
+    }
+
+    /**
+     *  Shows or Hide the empty list banner
+     */
+    public void manageViews(){
+        if(getKeys().size() == 0){
+            rvSaves.setVisibility(View.GONE);
+            tvIfEmpty.setVisibility(View.VISIBLE);
+        } else {
+            rvSaves.setVisibility(View.VISIBLE);
+            tvIfEmpty.setVisibility(View.GONE);
+        }
+    }
+
 }
 
