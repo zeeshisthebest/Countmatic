@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,11 +22,12 @@ import java.util.HashMap;
 
 public class MainActivity2 extends AppCompatActivity implements View.OnClickListener, SaveDialog.NoticeDialogListener {
 
+    //Class Level Variables
     public static String PREFERENCE_KEY = "zecho.countmatic.SAVES";
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     TextView tvName, tvSteps, tvCount, tvIfEmpty;
-    Button btnSave, btnIncrease, btnDecrease, btnCount;
+    Button btnSave, btnIncrease, btnDecrease, btnCount, btnHelp;
     int count, step;
     RecyclerView rvSaves;
     SaveAdapter saveAdapter;
@@ -37,17 +39,20 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         setContentView(R.layout.updated);
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
-                        @Override
+            @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         initialize();
 
+        //To pass reference of the instance to adapter
         ma = this;
 
         rvSaves = findViewById(R.id.rv_saved);
@@ -65,6 +70,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * Initializes all the Views
+     */
     public void initialize() {
 
         sp = this.getSharedPreferences(PREFERENCE_KEY, 0);
@@ -94,6 +102,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         btnSave = findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
+
+        btnHelp = findViewById(R.id.btn_help);
+        btnHelp.setOnClickListener(this);
     }
 
 
@@ -127,6 +138,14 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 SaveDialog saveDialog = new SaveDialog();
                 saveDialog.show(getSupportFragmentManager(), "Save");
                 break;
+
+            case R.id.btn_help:
+                AlertDialog helpDialog = new AlertDialog.Builder(this)
+                        .setTitle("Help")
+                        .setMessage(getText(R.string.help_dialog_message))
+                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).create();
+
+                helpDialog.show();
         }
 
     }
@@ -171,10 +190,10 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     *  Shows or Hide the empty list banner
+     * Shows or Hide the empty list banner
      */
-    public void manageViews(){
-        if(getKeys().size() == 0){
+    public void manageViews() {
+        if (getKeys().size() == 0) {
             rvSaves.setVisibility(View.GONE);
             tvIfEmpty.setVisibility(View.VISIBLE);
         } else {
